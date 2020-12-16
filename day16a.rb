@@ -14,14 +14,11 @@ end.to_h
 other_tickets = other_tickets.split("\n").map { |ticket| ticket.split(",").map(&:to_i) }
 
 invalid_values = 0
+ranges = rules.values.flatten
 
 other_tickets.each do |ticket|
   ticket.each do |value|
-    valid_value = rules.any? do |_k, ranges|
-      ranges.any? { |range| range.include?(value) }
-    end
-
-    invalid_values += value unless valid_value
+    invalid_values += value unless ranges.any? { |range| range.include?(value) }
   end
 end
 
