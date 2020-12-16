@@ -1,4 +1,4 @@
-rules, my_ticket, other_tickets = File.read("./day16.input").split("\n\n")
+rules, my_ticket, other_tickets = File.read("./day16.input").split(/\n\n.*:\n/)
 
 puts rules.inspect
 puts my_ticket.inspect
@@ -13,7 +13,6 @@ rules = rules.split("\n").map do |rule|
 end
 
 other_tickets = other_tickets.split("\n").map { |ticket| ticket.split(",").map(&:to_i) }
-other_tickets.shift
 
 invalid_values = 0
 

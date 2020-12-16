@@ -1,6 +1,6 @@
 require "set"
 
-rules, my_ticket, other_tickets = File.read("./day16.input").split("\n\n")
+rules, my_ticket, other_tickets = File.read("./day16.input").split(/\n\n.*:\n/)
 
 # this parsing code is not my finest, but short of writing a parser...
 rules = rules.split("\n").map do |rule|
@@ -10,10 +10,9 @@ rules = rules.split("\n").map do |rule|
   defn
 end.to_h
 
-my_ticket = my_ticket.split("\n")[1].split(",").map(&:to_i)
+my_ticket = my_ticket.split(",").map(&:to_i)
 
 other_tickets = other_tickets.split("\n").map { |ticket| ticket.split(",").map(&:to_i) }
-other_tickets.shift
 
 valid_tickets = other_tickets.select do |ticket|
   ticket.all? do |value|
