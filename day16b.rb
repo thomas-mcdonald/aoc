@@ -10,22 +10,16 @@ rules = rules.split("\n").map do |rule|
 end.to_h
 
 my_ticket = my_ticket.split(",").map(&:to_i)
-
 other_tickets = other_tickets.split("\n").map { |ticket| ticket.split(",").map(&:to_i) }
 
+ranges = rules.values.flatten
 valid_tickets = other_tickets.select do |ticket|
-  ticket.all? do |value|
-    rules.any? do |_k, rule|
-      rule.any? { |range| range.include?(value) }
-    end
-  end
+  ticket.all? { |value| ranges.any? { |range| range.include?(value) } }
 end
 
 possible_mapping = []
 valid_tickets[0].length.times { |i| possible_mapping[i] = rules.keys }
 
-# there's probably a clever condition you could apply
-# where you only do this until you have a valid list
 (valid_tickets + [my_ticket]).each do |ticket|
   ticket.each_with_index do |val, col|
     potential_rules = possible_mapping[col]
